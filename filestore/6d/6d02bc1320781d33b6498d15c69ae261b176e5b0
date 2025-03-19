@@ -1,0 +1,4 @@
+
+/* /website_project_tablero_idu/static/src/js/graficar_dhtmlxgantt.js defined in bundle 'website_base_idu.tablero_assets_header' */
+odoo.define('website_project_idu.graficar_dhtmlxgantt',function(require){"use strict";var odoo_gantt=null;var odoo_dhtmlxgantt=require('website_dhtmlxgantt.dhtmlxgantt');var loader_ocultar=require('website_base_idu.loader_ocultar');var parse_query_string=require('website_base_idu.parse_query_string');$(document).ready(function(){if($('#gantt_diagram').length){var gantt_diagram_id='#gantt_diagram';odoo_gantt=new odoo_dhtmlxgantt();odoo_gantt.cargar_gantt($(gantt_diagram_id)[0],function(){gantt.sort('start_date',false);});}
+if($('#gantt_diagram_costo').length){var gantt_diagram_id='#gantt_diagram_costo';odoo_gantt=new odoo_dhtmlxgantt();odoo_gantt.cargar_gantt($(gantt_diagram_id)[0],function(){gantt.sort('start_date',false);gantt.config.columns.push({name:"costo",label:"Costo",align:"center",resize:true,width:120});});}});});

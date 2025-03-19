@@ -1,0 +1,46 @@
+version: "3"
+services:
+  odoo_v9:
+    build:
+      context: odoo_v9
+      dockerfile: Dockerfile
+    # env_file: .env
+    ports:
+      - "127.0.0.1:8069:8069"
+      - "127.0.0.1:8888:8888"
+    volumes:
+      - web:/var/lib/odoo
+      - ./addons:/opt/addons/
+      - ./config:/etc/odoo
+      - ./logs/odoo:/var/log/odoo/
+      - ./attachments/data:/opt/odoo-attachments/data/
+
+  postgres:
+    image: pgrouting/pgrouting:12-3.0-2.6.3
+    # build:
+    #   context: postgresql
+    #   dockerfile: Dockerfile
+    environment:
+      - POSTGRES_DB=odoo_v9
+      - POSTGRES_USER=odoo
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - PGDATA=/var/lib/postgresql/data/data_db
+    volumes:
+      - db:/var/lib/postgresql/data/pgdata
+      - ./db_postgresql:/var/lib/db_postgresql
+    ports:
+      - "5433:5433"
+    expose:
+      - 5433
+
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+
+volumes:
+  db:
+  web:
